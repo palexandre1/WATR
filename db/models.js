@@ -1,8 +1,12 @@
-const db = require('./models')
+const db = require('./db')
+db.connect()
 
-const getCourts = () => {
-  const text = 'SELECT * FROM courts';
-  return db.query(text);
+const getAllCourts = async () => {
+  console.log('hello')
+  const text = 'SELECT * FROM courts;';
+  results = await db.query(text);
+  return results.rows
+  db.end()
 }
 
 const updatePlayerCount = (id) => {
@@ -10,6 +14,6 @@ const updatePlayerCount = (id) => {
 }
 
 module.exports = {
-  getCourts,
+  getAllCourts,
   updatePlayerCount,
 }
