@@ -1,11 +1,15 @@
-require('dotenv').config();
-const { Client } = require('pg');
+const db = require('./models')
 
-const client = new Client({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD
-});
+const getCourts = () => {
+  const text = 'SELECT * FROM courts';
+  return db.query(text);
+}
 
+const updatePlayerCount = (id) => {
+
+}
+
+module.exports = {
+  getCourts,
+  updatePlayerCount,
+}
