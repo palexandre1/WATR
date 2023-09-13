@@ -18,7 +18,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.WhereAreTheRuns.WATR",
       "config": {
-        "googleMapsApiKey": "AIzaSyDNYxKXWVoPbCmaX14Lyg8Do7szWMk6bFI"
+        "googleMapsApiKey": "AIzaSyBP1zoWROF1HLB6bb6DfzRrsnnXmSH4AF8"
         }
     },
     "android": {
