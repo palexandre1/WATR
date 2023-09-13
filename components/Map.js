@@ -1,18 +1,25 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import axios from 'axios';
+import ballImg from '../assets/png-clipart-basketball-ball-game-graphy-sports-basketball-game-orange-thumbnail.png'
+
+const ballImageUri = Image.resolveAssetSource(ballImg).uri
 
 export default function Map() {
-    const [courts, setCourts] = useState({});
+    const [courts, setCourts] = useState(null);
     const [mapRegion, setMapRegion] = useState({
     latitude: 39.73847,
     longitude: -104.99027,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const onMarkerPress = () => {
+    console.log('A Marker was pressed!')
+  }
 
   useEffect(() => {
     axios.get("http://localhost:3000/courts")
@@ -31,7 +38,19 @@ export default function Map() {
       region={mapRegion}
       style={styles.map}
       provider={PROVIDER_GOOGLE}
-      />
+    >
+      {courts && courts.map((court) => (
+        <Marker
+        key={court.id}
+        title={court.location_name}
+        coordinate={{latitude: court.coordinate.x,
+        longitude: court.coordinate.y}}
+        onPress={(e) => onMarkerPress()}
+        >
+        <Image source={ballImg} style={{height:35, width:35}} />
+        </Marker>
+      ))}
+    </MapView>
   )
 }
 
