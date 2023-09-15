@@ -12,7 +12,15 @@ const getCourts = (req, res) => {
 }
 
 const updatePlayerCount = (req, res) => {
-
+  const { id } = req.params;
+  Model.updatePlayerCount(id)
+    .then((response) => {
+      res.sendStatus(201)
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500)
+    })
 }
 
 
