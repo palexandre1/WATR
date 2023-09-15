@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./styles.css";
 import Map from './Map'
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const location = {
   lat: 39.73847,
@@ -29,7 +30,7 @@ const App = () => {
       .catch((error) => {
         console.log(error)
       })
-  })
+  }, [])
 
   return (
     <div className="App">
