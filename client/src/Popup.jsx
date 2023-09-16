@@ -3,26 +3,26 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-export default function Popup({ court, close, show }) {
+export default function Popup({ court, close, show, change }) {
   // const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [playerCount, setPlayerCount] = useState(court.player_count || 0)
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  const [playerCount, setPlayerCount] = useState(court.player_count |= 0)
   const playingHere = () => {
     axios.put(`/courts/${court.id}`)
       .then(() => {
         var newCount = playerCount;
         setPlayerCount(newCount+1)
+        change()
         console.log("Player count updated");
         // close()
       })
-      .catch(() => {
-        console.log('Unable to update player count')
+      .catch((error) => {
+        console.log(error)
       })
     // close()
   }
-  console.log(court)
 
   useEffect(() => {
 

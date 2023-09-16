@@ -16,6 +16,12 @@ const location = {
 const App = () => {
   const [key, setKey] = useState('');
   const [courts, setCourts] = useState([]);
+  const [weight, setWeight] = useState(0);
+
+  const weightChange = () => {
+    var weightRef = weight;
+    setWeight(weightRef + 1);
+  }
 
   useEffect(() => {
     axios.get('/key')
@@ -33,13 +39,13 @@ const App = () => {
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [weight])
 
   return (
     <div className="App">
       {key.length === 39 &&
         // <Map code={key} location={location} courts={courts} />
-        <Loader code={key} location={location} courts={courts}/>
+        <Loader code={key} location={location} courts={courts} change={weightChange}/>
       }
     </div>
   );

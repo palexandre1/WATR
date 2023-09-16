@@ -10979,6 +10979,14 @@ var App = function App() {
     _useState4 = _slicedToArray(_useState3, 2),
     courts = _useState4[0],
     setCourts = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+    _useState6 = _slicedToArray(_useState5, 2),
+    weight = _useState6[0],
+    setWeight = _useState6[1];
+  var weightChange = function weightChange() {
+    var weightRef = weight;
+    setWeight(weightRef + 1);
+  };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     axios__WEBPACK_IMPORTED_MODULE_5__["default"].get('/key').then(function (response) {
       setKey(response.data);
@@ -10991,7 +10999,7 @@ var App = function App() {
     })["catch"](function (error) {
       console.log(error);
     });
-  }, []);
+  }, [weight]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "App"
   }, key.length === 39 &&
@@ -11000,7 +11008,8 @@ var App = function App() {
   react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Loader__WEBPACK_IMPORTED_MODULE_2__["default"], {
     code: key,
     location: location,
-    courts: courts
+    courts: courts,
+    change: weightChange
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -11033,7 +11042,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Loader(_ref) {
   var code = _ref.code,
     location = _ref.location,
-    courts = _ref.courts;
+    courts = _ref.courts,
+    change = _ref.change;
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['visualization']),
     _useState2 = _slicedToArray(_useState, 1),
     libraries = _useState2[0];
@@ -11045,7 +11055,8 @@ function Loader(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !isLoaded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Map__WEBPACK_IMPORTED_MODULE_1__["default"], {
     code: code,
     location: location,
-    courts: courts
+    courts: courts,
+    change: change
   }));
 }
 
@@ -11085,7 +11096,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Map(_ref) {
   var location = _ref.location,
     code = _ref.code,
-    courts = _ref.courts;
+    courts = _ref.courts,
+    change = _ref.change;
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
     show = _useState2[0],
@@ -11117,7 +11129,7 @@ function Map(_ref) {
     });
     setData(heatMapData);
     // console.log(data)
-  }, []);
+  }, [courts]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_react_google_maps_api__WEBPACK_IMPORTED_MODULE_5__.GoogleMap, {
     mapContainerClassName: "map-container",
     center: location,
@@ -11137,7 +11149,8 @@ function Map(_ref) {
   }), show && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Popup__WEBPACK_IMPORTED_MODULE_4__["default"], {
     court: place,
     show: show,
-    close: closeModal
+    close: closeModal,
+    change: change
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_react_google_maps_api__WEBPACK_IMPORTED_MODULE_5__.HeatmapLayer, {
     data: data
   })));
@@ -11174,16 +11187,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Popup(_ref) {
   var court = _ref.court,
     close = _ref.close,
-    show = _ref.show;
+    show = _ref.show,
+    change = _ref.change;
   // const [show, setShow] = useState(false);
 
-  var handleClose = function handleClose() {
-    return setShow(false);
-  };
-  var handleShow = function handleShow() {
-    return setShow(true);
-  };
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count || 0),
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count |= 0),
     _useState2 = _slicedToArray(_useState, 2),
     playerCount = _useState2[0],
     setPlayerCount = _useState2[1];
@@ -11191,15 +11201,15 @@ function Popup(_ref) {
     axios__WEBPACK_IMPORTED_MODULE_1__["default"].put("/courts/".concat(court.id)).then(function () {
       var newCount = playerCount;
       setPlayerCount(newCount + 1);
+      change();
       console.log("Player count updated");
       // close()
-    })["catch"](function () {
-      console.log('Unable to update player count');
+    })["catch"](function (error) {
+      console.log(error);
     });
     // close()
   };
 
-  console.log(court);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, [playerCount]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
     show: show,

@@ -7,10 +7,11 @@ import { Icon } from '@iconify/react';
 import basketballIcon from '@iconify/icons-fluent-emoji/basketball';
 import Popup from './Popup';
 
-export default function Map({ location, code, courts }) {
+export default function Map({ location, code, courts, change }) {
   const [show, setShow] = useState(false);
   const [place, setPlace] = useState({});
   const [data, setData] = useState([]);
+
 
   const basketballIcon = 'https://api.iconify.design/fluent-emoji/basketball.svg?width=36&height=36';
 
@@ -33,7 +34,7 @@ export default function Map({ location, code, courts }) {
     })
     setData(heatMapData)
     // console.log(data)
-  }, [])
+  }, [courts])
 
   return (
     <>
@@ -52,7 +53,7 @@ export default function Map({ location, code, courts }) {
 
             />
           ))}
-          {show && <Popup court={place} show={show} close={closeModal}/>}
+          {show && <Popup court={place} show={show} close={closeModal} change={change}/>}
             <HeatmapLayer data={data} />
         </GoogleMap>
       }
