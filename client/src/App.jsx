@@ -1,6 +1,9 @@
+/* global google */
+
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import React, { useState, useEffect, useMemo } from "react";
 import "./styles.css";
+import Loader from './Loader';
 import Map from './Map'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,7 +38,8 @@ const App = () => {
   return (
     <div className="App">
       {key.length === 39 &&
-        <Map code={key} location={location} courts={courts} />
+        // <Map code={key} location={location} courts={courts} />
+        <Loader code={key} location={location} courts={courts}/>
       }
     </div>
   );
