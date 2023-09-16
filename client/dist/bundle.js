@@ -11112,8 +11112,8 @@ function Map(_ref) {
     setData = _useState6[1];
   var basketballIcon = 'https://api.iconify.design/fluent-emoji/basketball.svg?width=36&height=36';
   var openModal = function openModal(court) {
-    setShow(true);
     setPlace(court);
+    setShow(true);
   };
   var closeModal = function closeModal() {
     setShow(false);
@@ -11195,7 +11195,7 @@ function Popup(_ref) {
 
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count || (court.player_count = 0)),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count || 0),
     _useState2 = _slicedToArray(_useState, 2),
     playerCount = _useState2[0],
     setPlayerCount = _useState2[1];
@@ -11213,7 +11213,9 @@ function Popup(_ref) {
     // close()
   };
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, [playerCount]);
+  // useEffect(() => {
+
+  // },[playerCount])
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
     show: show,
     onHide: close

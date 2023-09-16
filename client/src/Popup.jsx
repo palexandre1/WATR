@@ -8,7 +8,7 @@ export default function Popup({ court, close, show, change }) {
 
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
-  const [playerCount, setPlayerCount] = useState(court.player_count ||= 0)
+  const [playerCount, setPlayerCount] = useState(court.player_count || 0)
   const playingHere = () => {
     axios.put(`/courts/${court.id}`)
       .then(() => {
@@ -25,9 +25,9 @@ export default function Popup({ court, close, show, change }) {
     // close()
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  },[playerCount])
+  // },[playerCount])
   return (
     <>
       <Modal show={show} onHide={close}>

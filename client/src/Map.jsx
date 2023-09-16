@@ -16,8 +16,9 @@ export default function Map({ location, code, courts, change }) {
   const basketballIcon = 'https://api.iconify.design/fluent-emoji/basketball.svg?width=36&height=36';
 
   const openModal = (court) => {
-    setShow(true)
     setPlace(court)
+    setShow(true)
+
   }
   const closeModal = () => {
     setShow(false);
