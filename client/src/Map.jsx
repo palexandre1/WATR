@@ -33,7 +33,7 @@ export default function Map({ location, code, courts, change }) {
       heatMapData.push(weightedLocation)
     })
     setData(heatMapData)
-    // console.log(data)
+
   }, [courts])
 
   return (
@@ -54,7 +54,7 @@ export default function Map({ location, code, courts, change }) {
             />
           ))}
           {show && <Popup court={place} show={show} close={closeModal} change={change}/>}
-            <HeatmapLayer data={data} />
+            <HeatmapLayer data={data} options={{radius: 50}}/>
         </GoogleMap>
       }
     </>

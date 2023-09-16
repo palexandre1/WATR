@@ -11128,7 +11128,6 @@ function Map(_ref) {
       heatMapData.push(weightedLocation);
     });
     setData(heatMapData);
-    // console.log(data)
   }, [courts]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_react_google_maps_api__WEBPACK_IMPORTED_MODULE_5__.GoogleMap, {
     mapContainerClassName: "map-container",
@@ -11152,7 +11151,10 @@ function Map(_ref) {
     close: closeModal,
     change: change
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_react_google_maps_api__WEBPACK_IMPORTED_MODULE_5__.HeatmapLayer, {
-    data: data
+    data: data,
+    options: {
+      radius: 50
+    }
   })));
 }
 
@@ -11193,7 +11195,7 @@ function Popup(_ref) {
 
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count |= 0),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(court.player_count || (court.player_count = 0)),
     _useState2 = _slicedToArray(_useState, 2),
     playerCount = _useState2[0],
     setPlayerCount = _useState2[1];
@@ -11201,12 +11203,13 @@ function Popup(_ref) {
     axios__WEBPACK_IMPORTED_MODULE_1__["default"].put("/courts/".concat(court.id)).then(function () {
       var newCount = playerCount;
       setPlayerCount(newCount + 1);
-      change();
+      // change()
       console.log("Player count updated");
       // close()
     })["catch"](function (error) {
       console.log(error);
     });
+    change();
     // close()
   };
 

@@ -8,19 +8,20 @@ export default function Popup({ court, close, show, change }) {
 
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
-  const [playerCount, setPlayerCount] = useState(court.player_count |= 0)
+  const [playerCount, setPlayerCount] = useState(court.player_count ||= 0)
   const playingHere = () => {
     axios.put(`/courts/${court.id}`)
       .then(() => {
         var newCount = playerCount;
         setPlayerCount(newCount+1)
-        change()
+        // change()
         console.log("Player count updated");
         // close()
       })
       .catch((error) => {
         console.log(error)
       })
+      change()
     // close()
   }
 
