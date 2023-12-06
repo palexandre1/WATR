@@ -1,12 +1,11 @@
-const db = require('./db')
+const db = require("./db");
 db.connect()
 
 const getAllCourts = async () => {
-  console.log('hello')
-  const text = 'SELECT * FROM courts;';
-  results = await db.query(text);
-  return results.rows
-  db.end()
+  const text = "SELECT * FROM courts;";
+  const results = await db.query(text);
+  db.end();
+  return results.rows;
 }
 
 const updatePlayerCount = (id) => {
@@ -16,4 +15,4 @@ const updatePlayerCount = (id) => {
 module.exports = {
   getAllCourts,
   updatePlayerCount,
-}
+};
