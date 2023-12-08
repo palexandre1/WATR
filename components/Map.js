@@ -2,7 +2,7 @@ import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 
 import ballImg from "../assets/png-clipart-basketball-ball-game-graphy-sports-basketball-game-orange-thumbnail.png";
 
@@ -30,7 +30,6 @@ export default function Map() {
       })
       .catch((error) => {
         console.log(error);
-        console.log("here");
       });
   });
 
@@ -49,6 +48,15 @@ export default function Map() {
             onPress={(e) => onMarkerPress()}
           >
             <Image source={ballImg} style={{ height: 35, width: 35 }} />
+            <Callout tooltip>
+              <View>
+                <View style={styles.bubble}>
+                  <Text style={styles.name}>{court.location_name}</Text>
+                </View>
+                <View style={styles.arrowBorder} />
+                <View style={styles.arrow} />
+              </View>
+            </Callout>
           </Marker>
         ))}
     </MapView>
@@ -62,5 +70,31 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  bubble: {
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    borderWidth: 2,
+    padding: 15,
+    width: 150,
+  },
+  arrow: {
+    alignSelf: "center",
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderTopWidth: 20,
+    borderRightWidth: 10,
+    borderBottomWidth: 0,
+    borderLeftWidth: 10,
+    borderTopColor: "black",
+    borderRightColor: "transparent",
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
   },
 });
