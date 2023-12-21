@@ -1,8 +1,8 @@
 import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
+import { StyleSheet, Text, View, Image, Button, Alert } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker, Callout, CalloutSubview, Heatmap } from "react-native-maps";
 
 import ballImg from "../assets/png-clipart-basketball-ball-game-graphy-sports-basketball-game-orange-thumbnail.png";
 
@@ -16,9 +16,21 @@ export default function Map() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [data, setData] = useState([]);
+  const [weight, setWeight] = useState(0);
 
-  const onMarkerPress = () => {
-    console.log("A Marker was pressed!");
+  const playingHere = (court) => {
+
+    //**IDEA**
+    //Make the weighted locations array into a state. Update state every time this function is called.
+    //Add state as a dependency on useEffect
+
+    let playerCount = court.player_count;
+    axios.put(`http://localhost:3000/courts/${court.id}`).then(() => {
+      playerCount += 1;
+      setWeight(playerCount);
+      console.log(playerCount)
+    });
   };
 
   useEffect(() => {
@@ -31,9 +43,23 @@ export default function Map() {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, [weight]);
 
-  // console.log(courts)
+  useEffect(() => {
+    const heatMapData = [];
+    if (courts) {
+      courts.map((court, i) => {
+        const weightedLocation = {
+          latitude: court.coordinate.x,
+          longitude: court.coordinate.y,
+          weight: court.player_count,
+        };
+        heatMapData.push(weightedLocation);
+      });
+      setData(heatMapData);
+    }
+  }, [weight]);
+
   return (
     <MapView region={mapRegion} style={styles.map} provider={PROVIDER_GOOGLE}>
       {courts &&
@@ -45,13 +71,15 @@ export default function Map() {
               latitude: court.coordinate.x,
               longitude: court.coordinate.y,
             }}
-            onPress={(e) => onMarkerPress()}
           >
-            <Image source={ballImg} style={{ height: 35, width: 35 }} />
+            <Image source={ballImg} style={{ height: 25, width: 25 }} />
             <Callout tooltip>
               <View>
                 <View style={styles.bubble}>
                   <Text style={styles.name}>{court.location_name}</Text>
+                  <CalloutSubview onPress={() => playingHere(court)}>
+                    <Text>I'm Playing</Text>
+                  </CalloutSubview>
                 </View>
                 <View style={styles.arrowBorder} />
                 <View style={styles.arrow} />
@@ -59,6 +87,7 @@ export default function Map() {
             </Callout>
           </Marker>
         ))}
+      <Heatmap points={data} radius={50} opacity={0.5} />
     </MapView>
   );
 }
@@ -76,13 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   bubble: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignSelf: "flex-start",
     backgroundColor: "#fff",
     borderRadius: 12,
     borderWidth: 2,
     padding: 15,
     width: 150,
+    zIndex: 3,
   },
   arrow: {
     alignSelf: "center",
@@ -96,5 +126,8 @@ const styles = StyleSheet.create({
     borderRightColor: "transparent",
     borderBottomColor: "transparent",
     borderLeftColor: "transparent",
+  },
+  button: {
+    zIndex: 5,
   },
 });
